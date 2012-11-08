@@ -1,0 +1,69 @@
+// Place all the styles related to the games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.games {
+  list-style-type:none;
+  width: 300px;
+}
+.tiles {
+  width: 300px;
+  list-style-type:none;
+}
+.words { 
+  height: 70px;
+  list-style-type:none;
+  margin: 10px 0 0 0;
+}
+
+.game {
+  float:left;
+  width: 200px;
+  margin-bottom: 20px;
+}
+.game div.game-icon {
+  width: 96;
+  height:96;
+  display:inline-block;
+  border: 1px solid #ddd;
+  font-size: 40px;
+  line-height: 40px;
+}
+.tile {
+  float:left;
+  margin: 0 10px 10px 0;
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  font-size: 30px;
+  line-height: 50px;
+  text-align: center;
+  font-weight:bold;
+}
+.tiles .tile, .words .tile {
+  cursor:pointer;
+}
+#last_words {
+  font-weight: bold;
+  font-size: 2em;
+  line-height: 1.2em;
+}
+
+.profile {
+  height: 60px;
+  width: 60px;
+  margin: 0 0 5px 0;
+}
+
+#edit-game { margin: 20px 0 }
+
+.white { background-color: inherit}
+.player_1 { background-color: #67BBF2; }
+.player_2 { background-color: #F3857B; }
+.player_11 { background-color: #1390FF; }
+.player_21 { background-color: #FC2E27; }
+.p1_waiting { border-bottom: 4px solid #1390FF; }
+.p2_waiting { border-bottom: 4px solid #FC2E27; }
+.wp_1 { color: #67BBF2; }
+.wp_2 { color: #F3857B; }
+

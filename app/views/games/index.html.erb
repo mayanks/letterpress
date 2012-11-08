@@ -1,0 +1,13 @@
+<ul class="games">
+  <%- @games.each do |g| %>
+    <li class="game">
+    <div class="game-icon">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <%= link_to g.status_string(current_user), game_path(g) %>
+    </li>
+  <%- end -%>
+  <li class="game">
+  <div class="game-icon">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  <%= link_to 'New Game', new_game_path %>
+  </li>
+  <li class="clear"></li>
+</ul>
