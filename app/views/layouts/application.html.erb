@@ -2,30 +2,52 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Fake LetterPress" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Fake LetterPress" %>">
+    <title><%= content_for?(:title) ? yield(:title) : "LetterPress Clone - mayanks" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "LetterPress Clone - mayanks" %>">
+		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
-  <body class="<%= controller_name %> <%= action_name %>">
+  <body>
     <div id="main" role="main">
       <div class="container">
-        <div class="content">
-           <div class="row">
-            <div class="span12">
-              <%# render 'layouts/messages' %>
-              <%= yield %>
-            </div>
+        <div class="row">
+          <div class="span3">
+            <section class="sidebar">
+            <h1>letterpress.clone</h1>
+            <ul class="nav">
+              <%- if current_user %>
+                <li>
+                <div class="tile player_1 profile"><%=image_tag(current_user.profile_picture) %></div>
+                </li>
+              <% end %>
+              <li class="<%='active' if action_name =~ /letterpress/i%>""><a href="/letterpress">letterpress</a></li>
+              <%- if current_user %>
+                <li class="<%='active' if action_name =~ /index|show/i%>"><a href="/games">my games</a></li>
+              <%- end -%>
+              <li class="<%='active' if action_name =~ /howtoplay/i%>"><a href="/howtoplay">how to play</a></li>						
+              <li>
+              <%- if current_user %>
+                <%= link_to 'sign out', destroy_user_session_path %>
+              <%- else %>
+                <%= link_to "sign in", user_omniauth_authorize_path(:facebook) %>
+              <% end %>
+              </li>
+            </ul>	
+            </section>
           </div>
-          <footer>
-          <%- if current_user -%>
-            Logged in as <%= current_user.name %> | <%= link_to 'Logout', destroy_user_session_path %>
-          <%- else -%>
-            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
-          <%- end -%>
-          </footer>
+          <div class="span9 offset3">
+            <%= yield %>
+            <footer>
+            <%- if current_user -%>
+              Logged in as <%= current_user.name %> | <%= link_to 'Logout', destroy_user_session_path %>
+            <%- else -%>
+              <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+            <%- end -%>
+            </footer>
+          </div>
         </div>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->

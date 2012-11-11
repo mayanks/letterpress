@@ -1,58 +1,88 @@
-<div class="row">
-  <div class="span1">&nbsp;</div>
+<div id="game" data-id="<%=@game.id%>" data-state="<%=@game.state%>" class="row">
   <div class="span5">
-    <div class="row">
-      <div class="player <%= "p1_waiting" if @game.state == Game::STATE_P1_WAITING %> pull-left">
-        <div class="tile player_1 profile"><%=image_tag(@game.player_a.profile_picture) if @game.player_a %></div>
-        <div class="tile white"><%= @game.player_a_score %></div>
-        <div class="clear"></div>
-        <div class="arrow"></div>
-      </div>
+    <table style="width:100%">
+      <tr>
+        <td>
+          <table class="player <%= "p1_waiting" if @game.state == Game::STATE_P1_WAITING %>">
+						<tr>
+							<td><div class="tile player_1 profile"><%=image_tag(@game.player_a.profile_picture) if @game.player_a %></div></td>
+              <td><div class="tile white"><%= @game.player_a_score %></div></td>
+						</tr>
+          </table>
+        </td>
 
-      <div class="player <%= "p2_waiting" if @game.state == Game::STATE_P2_WAITING %> pull-right">
-        <div class="tile white"><%= @game.player_b_score %></div>
-        <div class="tile player_2 profile"><%=image_tag(@game.player_b.profile_picture) if @game.player_b %></div>
-        <div class="clear"></div>
-      </div>
-      <center><%= @game.status_string(current_user) if current_user %></center>
-    </div>
+        <td style="width:100%">
+          <center><span class="user-message label label-info"><%= @game.status_string(current_user) if current_user %></span></center>
+        </td>
+					
+        <td>	
+          <table class="player <%= "p2_waiting" if @game.state == Game::STATE_P2_WAITING %>">
+						<tr>
+              <td><div class="tile white"><%= @game.player_b_score %></div></td>
+              <td><div class="tile player_2 profile"><%=image_tag(@game.player_b.profile_picture) if @game.player_b %></div></td>
+					  </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
 
-    <%- if current_user -%>
-      <%- if @game.can_move?(current_user)%>
-        <div class="row">
-          <%= form_for(@game, :html => {:class => "pull-right", :id => "edit-game"}) do |f| %>
-            <%= hidden_field_tag :sequence %>
-            <%= f.submit("play",:class => "btn btn-primary") %>
-          <% end %>
-
-          <ul class="words">
-          </ul>
-        </div>
-      <%-end %>
-    <%- else -%>
-      <center>
-        <%= link_to "Sign in to Play", user_omniauth_authorize_path(:facebook), :class => "btn btn-primary" %>
-      </center>
-    <%-end %>
-
-    <div class="row">
-      <center>
-        <ul class="tiles" id="tiles<%='-signdin' if current_user and @game.can_move?(current_user) %>">
-          <%- @game.letters.each_index do |i| %>
-            <%- l = @game.letters[i] %>
-            <li data-id=<%=i %> class="tile player_<%=l.values[0]%><%='1' if @game.is_protected?(i)%>"><%=l.keys[0]%></li>
-          <%- end %>
-        </ul>
-        <div class="clear"></div>
-        <div id="last_words">
-          <%- count = 0 %>
-          <%- @game.words.reverse.each do |w| %>
-            <%- count += 1 %>
-            <div class="word wp_<%= 1 + count%2 %>"><%=w%></div>
-          <% end %>
-        </div>
-      </center>
-    </div>
+    <%= render 'layouts/messages' %>
   </div>
 </div>
 
+<%- if current_user -%>
+  <%- if @game.can_move?(current_user)%>
+    <div class="row">
+			<div class="span9">
+        <ul class="words">
+					<span class="hint">Make your word here</span>
+        </ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span5">
+      	<center>	 		
+          <%= form_for(@game, :html => { :id => "edit-game"}) do |f| %>
+            <%= hidden_field_tag :sequence %>
+            <%= f.submit("play",:class => "btn btn-info btn-small") %>
+					  <a href="#" class="clear-tiles btn btn-mini">clear</a>
+          <% end %>
+			  </center>
+		  </div>
+    </div>
+  <%-end %>
+<%- else -%>
+  <div class="row">
+    <div class="span5">
+      <center>
+        <%= link_to "Sign in to Play", user_omniauth_authorize_path(:facebook), :class => "btn btn-info" %>
+      </center>
+    </div>
+  </div>
+<%-end %>
+
+<div class="row">
+  <div class="span5">
+    <center>
+      <ul class="tiles" id="tiles<%='-signdin' if current_user and @game.can_move?(current_user) %>">
+        <%- @game.letters.each_index do |i| %>
+          <%- l = @game.letters[i] %>
+          <li data-id=<%=i %> class="tile player_<%=l.values[0]%><%='1' if @game.is_protected?(i)%>"><%=l.keys[0]%></li>
+        <%- end %>
+        <li style="clear:both"></li>
+      </ul>
+      <div id="last_words">
+        <%- count = 0 %>
+        <%- @game.words.reverse.each do |w| %>
+          <%- count += 1 %>
+          <div class="word wp_<%= 1 + count%2 %>"><%=w%></div>
+        <% end %>
+      </div>
+    </center>
+  </div>
+</div>
+<%- if @game.should_wait?(current_user )%>
+<script type="text/javascript">
+  $(document).ready(function(){window.PollingFunction()});
+</script>
+<%-end -%>

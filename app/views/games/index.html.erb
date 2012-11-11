@@ -1,13 +1,25 @@
-<ul class="games">
-  <%- @games.each do |g| %>
+<div id="games"  class="row">
+  <div class="span6">
+  <h2>my games</h2>
+  <ul class="games">
+    <%- @games.each do |g| %>
+      <li class="game">
+			  <div>
+		      <%= link_to(game_path(g)) do %>
+	          <i class='icon icon-th icon-large'></i>
+			      <%= g.status_string(current_user) %>
+  				<% end %>
+	  		</div>
+      </li>
+    <%- end -%>
     <li class="game">
-    <div class="game-icon">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    <%= link_to g.status_string(current_user), game_path(g) %>
+	  	<div>
+	      <%= link_to(new_game_path) do %>
+          <i class='icon icon-play icon-large'></i> New Game
+  			<% end %>
+	  	</div>
     </li>
-  <%- end -%>
-  <li class="game">
-  <div class="game-icon">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-  <%= link_to 'New Game', new_game_path %>
-  </li>
-  <li class="clear"></li>
-</ul>
+    <li class="clear"></li>
+  </ul>
+</div>
+</div >

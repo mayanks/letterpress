@@ -19,6 +19,43 @@ class Game < ActiveRecord::Base
   STATE_P2_CANCELLED = 6
   STATE_COMPLETE = 7
 
+  @error = ""
+  def error
+    @error
+  end
+  def error=(e)
+    @error = e
+  end
+      
+  @@VALID_WORDS = {}
+  @@CANDIDATES = []
+  def self.VALID_WORDS
+    @@VALID_WORDS
+  end
+  def self.candidates
+    @@CANDIDATES
+  end
+
+  def self.setup(file)
+    # Valid words are looked up against the dictionary called TWL06 provided by internet scrabbles club 
+    # http://www.isc.ro/en/commands/lists.html
+    f = File.read(file)
+    f.split.each{|w| Game.VALID_WORDS[w] = true}
+    #f.split.each{|w| Rails.cache.write(w,true)}
+
+    # Frequency distribution of letters are according to letters available in Scrabble. This ensures that a playable random
+    # board is presented every single time. http://en.wikipedia.org/wiki/Scrabble_letter_distributions
+    letter_frequency = { "A"=>9,"B"=>2,	"C"=>2, "D"=>4, "E"=>12,	"F"=>2, "G"=>3, "H"=>2, "I"=>9, "J"=>1, "K"=>1, "L"=>4, "M"=>2, "N"=>6, "O"=>8, "P"=>2, "Q"=>1, "R"=>6, "S"=>4, "T"=>6, "U"=>4, "V"=>2, "W"=>2, "X"=>1, "Y"=>2, "Z"=>1	}
+    letter_frequency.each do |c,f|
+      1.upto(f) {|i| Game.candidates << c}
+    end
+  end
+  
+  def valid_word?(w)
+    Game.VALID_WORDS[w]
+    #Rails.cache.read(w)
+  end
+  
   def can_move?(user)
     return true if self.state == STATE_NEW and user == player_a
     return true if self.state == STATE_P1_WAITING and user == player_a
@@ -26,11 +63,17 @@ class Game < ActiveRecord::Base
     return false
   end
 
+  def should_wait?(user)
+    (user) and 
+     ((state == STATE_P1_WAITING and user == player_b) or
+      (state == STATE_P2_WAITING and user == player_a))
+  end
+  
   def status_string(user)
     if state == STATE_NEW
       "New Game"
     elsif state == STATE_WAITING
-      "Waiting for your opponent"
+      "Waiting for an opponent to join"
     elsif state == STATE_ACTIVE
       "Game Active"
     elsif state == STATE_P1_WAITING
@@ -47,25 +90,45 @@ class Game < ActiveRecord::Base
       end
     elsif state == STATE_COMPLETE
       winner = player_a
-      winner = player_b if player_b_score > player_a_score
-      "Game Complete - " + winner.name + " Won"
+      score_s = "#{player_a_score} - #{player_b_score}"
+      if player_b_score > player_a_score
+        winner = player_b
+        score_s = "#{player_b_score} - #{player_a_score}"
+      end
+      "Game Complete - " + winner.name + " Won " + score_s
     end
   end
 
   def play(sequence,user)
-    return false unless self.can_move?(user)
+    unless self.can_move?(user)
+      self.error = "Sorry, not your turn"
+      return false
+    end
+    
     player = 1
     player = 2 if self.state == STATE_P2_WAITING
 
     sequence.each {|s| return false if s >= SIZE*SIZE }
+
+    word = sequence.map{|s| self.letters[s].keys[0]}.join
+    unless valid_word?(word)
+      self.error = "Whoops!! #{word} is not present in my dictionary."
+      self.error += "Dictionary:#{Game.VALID_WORDS.keys.length}" if Rails.env == 'development'
+      return false
+    end
+    
+    if self.words.index(word)
+      self.error = "Darn!! did not realize #{word} is already used?"
+      return false
+    end
+    
+    self.words << word
+    
     sequence.each do |s|
       if !self.is_protected?(s)
         self.letters[s][self.letters[s].keys[0]] = player
       end
     end
-
-    w = sequence.map{|s| self.letters[s].keys[0]}.join
-    self.words << w
 
     if self.state == STATE_NEW
       self.state = STATE_WAITING
@@ -77,7 +140,9 @@ class Game < ActiveRecord::Base
     self.letters.each {|l| scores[l.values[0]] += 1 }
     self.player_a_score = scores[1]
     self.player_b_score = scores[2]
-
+    
+    # Game is complete if all tiles are colored
+    self.state = STATE_COMPLETE if scores[0] == 0
     self.save
     return true
   end
@@ -125,6 +190,11 @@ class Game < ActiveRecord::Base
 
   protected
   def create_letters
+    self.letters = Game.candidates.shuffle[0..SIZE*SIZE-1].map{|a| {a=>0}}
+    self.words = []
+  end
+
+  def create_letters_old
     self.letters = []
     self.words = []
     1.upto(SIZE * SIZE) do |i|
