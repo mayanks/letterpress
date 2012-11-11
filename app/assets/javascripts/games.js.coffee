@@ -36,15 +36,20 @@ $(document).ready(->
       $('#edit-game').css('visibility','hidden')
 
   $('#edit-game').css('visibility','hidden')
-  $('.words').sortable({
-    change:-> TilesReorder()
-  })
+  $('.words').sortable()
+  #$('.words').sortable({
+  #  change:-> TilesReorder()
+  #})
 
   $('.clear-tiles').bind('click', ->
     $('.words').html('')
     $('.tiles .tile').css('visibility','visible')
     $('#edit-game').css('visibility','hidden')
     $(".words .hint").show();
+  )
+  $('#edit-game').bind('submit',->
+    TilesReorder()
+    return true
   )
 
   #$("#edit-game").bind('ajax:loading', -> alert("loading!"))
@@ -60,6 +65,7 @@ $(document).ready(->
       #alert(".tiles [data-id='"+$(this).parent().attr('data-id')+"']")
       $(".tiles [data-id='"+$(this).parent().attr('data-id')+"']").css('visibility','visible')
       $(this).parent().remove()
+      TilesReorder()
       )
   )
 
