@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
 
     respond_to do |format|
-      flash[:notice] = "Your opponent played <b>#{@game.words.last}</b>.#{@game.status_string(current_user)}" if params[:showMsg]
+      flash[:notice] = "Your opponent played #{@game.words.last}.#{@game.status_string(current_user)}" if params[:showMsg]
       format.html # show.html.erb
       format.json { render text: @game.to_json(:only => [:state]) }
     end
@@ -48,7 +48,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.play(sequence,current_user)
-        msg = "You played <b>#{@game.words.last}</b>. #{@game.status_string(current_user)}"
+        msg = "You played #{@game.words.last}. #{@game.status_string(current_user)}"
         format.html { redirect_to @game, notice: msg }
         format.json { head :no_content }
         format.js {render :partial => "show"}
