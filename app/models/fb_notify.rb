@@ -26,11 +26,10 @@ class FbNotify < ActiveRecord::Base
           self.notification_status = res.code.to_i
         rescue => ex
           self.notification_status = 500
-          puts "Failed to post to facebook"
         end
       end
-      self.notified = true
-      self.save
     end
+    self.notified = true
+    self.save
   end
 end

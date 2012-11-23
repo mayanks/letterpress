@@ -143,6 +143,15 @@ class Game < ActiveRecord::Base
     
     # Game is complete if all tiles are colored
     self.state = STATE_COMPLETE if scores[0] == 0
+    
+    # Set up the notification
+    if ((self.state == STATE_P1_WAITING) or (self.state == STATE_COMPLETE))
+      FbNotify.create(:game_id => self.id, :user_id => self.player_a_id, :state => self.state)
+    end
+    if ((self.state == STATE_P2_WAITING) or (self.state == STATE_COMPLETE))
+      FbNotify.create(:game_id => self.id, :user_id => self.player_b_id, :state => self.state)
+    end
+
     self.save
     return true
   end
