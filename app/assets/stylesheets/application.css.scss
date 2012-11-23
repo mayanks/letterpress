@@ -16,8 +16,11 @@
 	margin-left:220px;
 	padding: 20px;
 }
-h1 {
+.visible-phone h1 {
   font-family: 'Yanone Kaffeesatz', sans-serif;
+  text-align:center;
+  background-color: #000;
+  color: #fff;
 }
 .sidebar {
 	//position: fixed;
