@@ -192,7 +192,7 @@ class Game < ActiveRecord::Base
     return nil if u != player_a and u != player_b
     opponent = (player_a == u) ? player_b : player_a
     if state == STATE_P1_WAITING or state == STATE_P2_WAITING
-      msg = "@[#{opponent.uid}] has played. It's your move now"
+      msg = "@[#{opponent.uid}] has played #{self.words.last}. It's your move now"
     elsif state == STATE_COMPLETE
       winner = player_a
       score_s = "#{player_a_score} - #{player_b_score}"
