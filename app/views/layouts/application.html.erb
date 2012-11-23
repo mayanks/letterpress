@@ -13,8 +13,11 @@
   <body>
     <div id="main" role="main">
       <div class="container">
+        <div class="row visible-phone">
+          <h1>letterpress.clone</h1>
+        </div>
         <div class="row">
-          <div class="span3">
+          <div class="span3 hidden-phone">
             <section class="sidebar">
             <h1>letterpress.clone</h1>
             <ul class="nav">
@@ -42,10 +45,16 @@
             <%= yield %>
             <footer>
             <%- if current_user -%>
-              Logged in as <%= current_user.name %> | <%= link_to 'Logout', destroy_user_session_path %>
+              Logged in as <%= current_user.name %> | 
+              <a href="/games">my games</a> |
+              <%= link_to 'Logout', destroy_user_session_path %> |
             <%- else -%>
-              <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+              <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %> |
             <%- end -%>
+            <a href="/letterpress">about</a> |
+            <a href="/howtoplay">how to play</a> |
+            <a href="/privacy">privacy policy</a>
+ 
             </footer>
           </div>
         </div>
