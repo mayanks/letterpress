@@ -8,7 +8,7 @@ namespace :scheduler do
     items = FbNotify.all(:limit => 10, :conditions => ["notified = ? and created_at < ?", false, Time.now - 10.minutes])
     puts "Selected some #{items.length} notifications"
 
-    #items.each {|i| i.notify}
+    items.each {|i| i.notify}
 
   end
 
