@@ -188,6 +188,27 @@ class Game < ActiveRecord::Base
     return true
   end
 
+  def notification_msg(u)
+    return nil if u != player_a and u != player_b
+    opponent = (player_a == u) ? player_b : player_a
+    if state == STATE_P1_WAITING or state == STATE_P2_WAITING
+      msg = "@[#{opponent.uid}] has played. It's your move now"
+    elsif state == STATE_COMPLETE
+      winner = player_a
+      score_s = "#{player_a_score} - #{player_b_score}"
+      if player_b_score > player_a_score
+        winner = player_b
+        score_s = "#{player_b_score} - #{player_a_score}"
+      end
+      if winner == u
+        msg = "Congratulations!! You defeated @[#{opponent.uid}]. Score #{score_s}"
+      else
+        msg = "Hard luck. @[#{opponent.uid}] defeated you. Score #{score_s}"
+      end
+      return msg
+    end
+  end
+
   protected
   def create_letters
     self.letters = Game.candidates.shuffle[0..SIZE*SIZE-1].map{|a| {a=>0}}
