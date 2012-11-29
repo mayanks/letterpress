@@ -5,7 +5,7 @@
         <td>
           <table class="player <%= "p1_waiting" if @game.state == Game::STATE_P1_WAITING %>">
 						<tr>
-							<td><div class="tile player_1 profile"><%=image_tag(@game.player_a.profile_picture) if @game.player_a %></div></td>
+              <td><div class="tile player_1 profile"><%=link_to(image_tag(@game.player_a.profile_picture),"#", :title => @game.player_a.name, 'data-placement' => 'right', :class => "tooltip-container") if @game.player_a %></div></td>
               <td><div class="tile white"><%= @game.player_a_score %></div></td>
 						</tr>
           </table>

@@ -25,4 +25,12 @@ class User < ActiveRecord::Base
   def profile_picture
     "https://graph.facebook.com/#{self.uid}/picture"
   end
+
+  def win_count
+    Game.count(:conditions => ["state = ? and ((player_a_id = ? and player_a_score > player_b_score) or (player_b_id = ? and player_b_score > player_a_score))", Game::STATE_COMPLETE, self.id, self.id])
+  end
+
+  def loss_count
+    Game.count(:conditions => ["state = ? and ((player_a_id = ? and player_a_score < player_b_score) or (player_b_id = ? and player_b_score < player_a_score))", Game::STATE_COMPLETE, self.id, self.id])
+  end
 end

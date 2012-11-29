@@ -6,6 +6,8 @@ $(document).ready(->
   game_id = $("#game").attr('data-id')
   game_state = parseInt($("#game").attr('data-state'))
 
+  $('.tooltip-container').tooltip()
+
   PollingFunction = () ->
     $.ajax({
       url: '/games/'+game_id,
