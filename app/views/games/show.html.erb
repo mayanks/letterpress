@@ -5,7 +5,7 @@
         <td>
           <table class="player <%= "p1_waiting" if @game.state == Game::STATE_P1_WAITING %>">
 						<tr>
-              <td><div class="tile player_1 profile"><%=link_to(image_tag(@game.player_a.profile_picture),"#", :title => @game.player_a.name, 'data-placement' => 'right', :class => "tooltip-container") if @game.player_a %></div></td>
+              <td><div class="tile player_1 profile"><%=link_to(image_tag(@game.player_a.profile_picture),"#", :title => "#{@game.player_a.name}<br/>#{@game.player_a.win_count} Wins and #{@game.player_a.loss_count} Lost", 'data-placement' => 'right', :class => "tooltip-container") if @game.player_a %></div></td>
               <td><div class="tile white"><%= @game.player_a_score %></div></td>
 						</tr>
           </table>
@@ -19,7 +19,11 @@
           <table class="player <%= "p2_waiting" if @game.state == Game::STATE_P2_WAITING %>">
 						<tr>
               <td><div class="tile white"><%= @game.player_b_score %></div></td>
-              <td><div class="tile player_2 profile"><%=image_tag(@game.player_b.profile_picture) if @game.player_b %></div></td>
+              <td>
+                <div class="tile player_2 profile">
+                  <%=link_to(image_tag(@game.player_b.profile_picture),"#", :title => "#{@game.player_b.name}<br/>#{@game.player_b.win_count} Wins and #{@game.player_b.loss_count} Lost", 'data-placement' => 'left', :class => "tooltip-container") if @game.player_b %>
+                </div>
+              </td>
 					  </tr>
           </table>
         </td>
