@@ -3,7 +3,8 @@ class GamesController < ApplicationController
   # GET /games.json
   def index
     if current_user
-      @games = Game.all(:conditions => ["player_a_id = ? or player_b_id = ?",current_user.id, current_user.id], :order => "id desc")
+      @completed_games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state = ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
+      @other_games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state != ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
     else
       @game = Game.last
       render :action => "show"
