@@ -6,8 +6,9 @@
       <li class="game">
 			  <div>
 		      <%= link_to(game_path(g)) do %>
-	          <i class='icon icon-th icon-large'></i>
-			      <%= g.status_string(current_user) %>
+            <!-- <i class='icon icon-th icon-large'></i> -->
+            <%= render :partial => "game_icon", :locals => {:game => g} %>
+            <span class=""><%= g.status_string(current_user) %></span>
   				<% end %>
 	  		</div>
       </li>
