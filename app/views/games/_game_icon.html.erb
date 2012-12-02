@@ -1,0 +1,9 @@
+<table class="game-icon">
+  <%- 0.upto(Game::SIZE-1) do |i| -%>
+    <tr>
+      <%- 0.upto(Game::SIZE-1) do |j| -%>
+        <td class="color_<%=game.letters[i*Game::SIZE+j].values.first%>"></td>
+      <%- end -%>
+    </tr>
+  <%- end -%>
+</table>
