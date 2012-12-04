@@ -38,6 +38,7 @@
                 <%= link_to "sign in", user_omniauth_authorize_path(:facebook) %>
               <% end %>
               </li>
+              <li class="<%='active' if action_name =~ /about/i%>"><a href="/about">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;about</a></li>						
             </ul>	
             </section>
           </div>
@@ -51,7 +52,7 @@
             <%- else -%>
               <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %> |
             <%- end -%>
-            <a href="/letterpress">about</a> |
+            <a href="/about">about</a> |
             <a href="/howtoplay">how to play</a> |
             <a href="/privacy">privacy policy</a>
  
