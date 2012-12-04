@@ -3,14 +3,26 @@ class GamesController < ApplicationController
   # GET /games.json
   def index
     if current_user
-      @completed_games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state = ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
-      @other_games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state != ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
+      @games = Game.all(:conditions => ["player_a_id = ? and state = ?",current_user.id, Game::STATE_NEW], :order => "id desc")
+      @games += Game.all(:conditions => ["(player_a_id = ? and state = ?) or (player_b_id = ? and state = ?)",current_user.id, Game::STATE_P1_WAITING, current_user.id, Game::STATE_P2_WAITING], :order => "id desc")
+      @games += Game.all(:conditions => ["(player_a_id = ? and state =?) or (player_a_id = ? and state = ?) or (player_b_id = ? and state = ?)",current_user.id, Game::STATE_WAITING, current_user.id, Game::STATE_P2_WAITING, current_user.id, Game::STATE_P1_WAITING], :order => "id desc")
+      #@games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state != ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
     else
       @game = Game.last
       render :action => "show"
     end
 
   end
+
+  def completed
+    if current_user
+      @games = Game.all(:conditions => ["(player_a_id = ? or player_b_id = ?) and state = ?",current_user.id, current_user.id, Game::STATE_COMPLETE], :order => "id desc")
+      render :action => "index"
+    else
+      raise ActiveRecord::NotFound
+    end
+  end
+
 
   # GET /games/1
   # GET /games/1.json

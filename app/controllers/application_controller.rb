@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   before_filter :check_facebook_login
 
   def check_facebook_login
+    if Rails.env == 'development'
+      u = User.find(1)
+      sign_in(u, :event => :authentication)
+    end
     if params[:signed_request]
       (encoded_sig,encoded_payload) = params[:signed_request].split(/\./)
       data = JSON.parse(base64_url_decode(encoded_payload))
