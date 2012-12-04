@@ -29,10 +29,10 @@
 	width:200px;
   font-family: 'Yanone Kaffeesatz', sans-serif;
 }
-.nav {
+.sidebar .nav {
 	text-align: right;
 }
-.nav li {
+.sidebar .nav li {
 	padding: 5px 20px;
 	margin-bottom: 5px;
 	display:inline-block;
@@ -40,15 +40,15 @@
 	line-height: 1em;
   font-family: 'Yanone Kaffeesatz', sans-serif;
 }
-.nav li.active {
+.sidebar .nav li.active {
 	color: #fff;
 	background-color:#000;
 	border-radius: 20px;
 }
-.nav > li.active > a {
+.sidebar .nav > li.active > a {
 	color: #fff;
 }
-.nav > li > a {
+.sidebar .nav > li > a {
 	color: #000;
 }
 footer {

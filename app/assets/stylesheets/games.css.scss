@@ -2,9 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.games {
-  list-style-type:none;
-}
+//.games { list-style-type:none; }
+table.games tr td {margin-bottom: 10px;}
 .tiles {
   width: 300px;
 	margin-top: 10px;
@@ -91,6 +90,23 @@
 	font-size: 32px;
 	line-height: 1.875em;
 }
+tr.game td { vertical-align: top}
+.game .status {
+  margin-left: 20px;
+  font-size: 14px;
+  color: #999;
+}
+.game .active {
+  color: #000;
+}
+.game a.status:hover {
+  background-color:inherit;
+  text-decoration: underline;
+  color: #000;
+}
+.game-icon {
+  margin-bottom: 10px;
+}
 .game-icon td {
   width: 10px;
   height: 10px;
@@ -98,3 +114,13 @@
 .game-icon td.color_0 { background-color: #ddd;}
 .game-icon td.color_1 { background-color: #67BBF2;}
 .game-icon td.color_2 { background-color: #F3857B;}
+
+.about {color: #999;}
+.about a {
+  color: #000; 
+  font-weight: bold;
+}
+.recommend {
+  font-size: 10px;
+  margin-bottom: 0;
+}

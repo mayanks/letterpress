@@ -1,6 +1,8 @@
 @import "bootstrap";
 body { padding-top: 60px; }
 h2 {font-size: 1.5em;line-height:1.5em;border-bottom:1px solid #666;}
-.nav > li > a:hover {background-color: #ffffff;}
-.nav > li.active > a:hover {background-color: #000000;}
+.sidebar .nav > li > a:hover {background-color: #ffffff;}
+.sidebar .nav > li.active > a:hover {background-color: #000000;}
+#games .nav > li > a:hover, #games .nav > li.active > a {color: #000;}
+#games .nav > li > a {color: #1390FF;}
 @import "bootstrap-responsive";
