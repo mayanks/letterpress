@@ -1,43 +1,45 @@
 <div id="games"  class="row">
   <div class="span6">
-  <h2>my games</h2>
-  <ul class="games">
-    <%- @other_games.each do |g| %>
-      <li class="game">
-			  <div>
-		      <%= link_to(game_path(g)) do %>
-            <!-- <i class='icon icon-th icon-large'></i> -->
+    <ul class="nav nav-tabs">
+      <li class="<%= 'active' if action_name == 'index' %>">
+      <%= link_to("active games", "/games/") %></li>
+      </li>
+      <li class="<%= 'active' if action_name == 'completed' %>">
+      <%= link_to("completed games", "/games/completed") %>
+      </li>
+      <li><%= link_to("new game", new_game_path) %></li>
+    </ul>
+
+    <table class="games">
+      <%- @games.each do |g| %>
+        <tr class="game">
+          <td>
+            <%= link_to(game_path(g)) do %>
+              <%= render :partial => "game_icon", :locals => {:game => g} %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to(g.status_string(current_user),game_path(g),:class => g.can_move?(current_user) ? "status active" : "status")  %>
+          </td>
+        </tr>
+      <%- end -%>
+    </table>
+ 
+    <!--
+    <ul class="games">
+      <%- @games.each do |g| %>
+        <li class="game">
+        <div>
+          <%= link_to(game_path(g)) do %>
             <%= render :partial => "game_icon", :locals => {:game => g} %>
             <span class=""><%= g.status_string(current_user) %></span>
-  				<% end %>
-	  		</div>
-      </li>
-    <%- end -%>
-    <li class="game">
-	  	<div>
-	      <%= link_to(new_game_path) do %>
-          <i class='icon icon-play icon-large'></i> New Game
-  			<% end %>
-	  	</div>
-    </li>
-    <li class="clear"></li>
-  </ul>
+          <% end %>
+        </div>
+        </li>
+      <%- end -%>
+      <li class="clear"></li>
+    </ul>
+    -->
 
-  <h2>my completed games</h2>
-  <ul class="games">
-    <%- @completed_games.each do |g| %>
-      <li class="game">
-			  <div>
-		      <%= link_to(game_path(g)) do %>
-            <!-- <i class='icon icon-th icon-large'></i> -->
-            <%= render :partial => "game_icon", :locals => {:game => g} %>
-            <span class=""><%= g.status_string(current_user) %></span>
-  				<% end %>
-	  		</div>
-      </li>
-    <%- end -%>
-    <li class="clear"></li>
-  </ul>
-
+  </div>
 </div>
-</div >
