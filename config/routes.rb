@@ -1,8 +1,10 @@
 LetterPress::Application.routes.draw do
 
+  get "/games/completed", :to => "games#completed"
   resources :games, :only => [:index, :show, :new, :update, :destroy]
   post "/games/:id", :to => "games#show"
   get "/letterpress", :to => "games#letterpress"
+  get "/about", :to => "games#about"
   get "/howtoplay", :to => "games#howtoplay"
   get "/contact", :to => "games#contact"
   get "/privacy", :to => "games#privacy"
