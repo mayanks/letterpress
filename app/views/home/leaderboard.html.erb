@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="span5">
+    <h2>leaderboard</h2>
+    <table class="games">
+      <%- count = 0 -%>
+      <% @users.each do |u| %>
+        <tr class="game">
+          <td><%= count += 1 %></td>
+          <td>
+            <div class="tile player_1 profile"><%=image_tag(u.profile_picture) %></div>
+          </td>
+          <td>
+            <p class="status">
+            <%= u.name %><br/>
+            <%= u.win_count %> Wins<br/>
+            <%= u.loss_count %> Lost<br/>
+            </p>
+          </td>
+      <% end %>
+    </table>
+  </div>
+</div>

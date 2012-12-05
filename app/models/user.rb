@@ -26,6 +26,14 @@ class User < ActiveRecord::Base
     "https://graph.facebook.com/#{self.uid}/picture"
   end
 
+  def update_score
+    self.update_attribute(:score, calculate_score)
+  end
+
+  def calculate_score
+    (win_count*2) - loss_count
+  end
+
   def win_count
     Game.count(:conditions => ["state = ? and ((player_a_id = ? and player_a_score > player_b_score) or (player_b_id = ? and player_b_score > player_a_score))", Game::STATE_COMPLETE, self.id, self.id])
   end

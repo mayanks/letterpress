@@ -152,6 +152,11 @@ class Game < ActiveRecord::Base
       FbNotify.create(:game_id => self.id, :user_id => self.player_b_id, :state => self.state)
     end
 
+    if self.state == STATE_COMPLETE
+      self.player_a.update_score
+      self.player_b.update_score
+    end
+
     self.save
     return true
   end

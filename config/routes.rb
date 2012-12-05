@@ -9,6 +9,7 @@ LetterPress::Application.routes.draw do
   get "/contact", :to => "games#contact"
   get "/privacy", :to => "games#privacy"
   get "/tos", :to => "games#tos"
+  get "/leaderboard", :to => "home#leaderboard"
   root :to => "games#index"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_scope :user do
