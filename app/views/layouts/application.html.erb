@@ -31,6 +31,7 @@
                 <li class="<%='active' if action_name =~ /index|show/i%>"><a href="/games">my games</a></li>
               <%- end -%>
               <li class="<%='active' if action_name =~ /howtoplay/i%>"><a href="/howtoplay">how to play</a></li>						
+              <li class="<%='active' if action_name =~ /leaderboard/i%>"><a href="/leaderboard">leaderboard</a></li>						
               <li>
               <%- if current_user %>
                 <%= link_to 'sign out', destroy_user_session_path %>
