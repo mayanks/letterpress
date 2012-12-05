@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="span5">
+    <h2>stats</h2>
+    <table class="games">
+      <tr class="game">
+        <td>Total Users</td>
+        <td><%= User.count %></td>
+      </tr>
+      <tr class="game">
+        <td>Users signed in last 24 hrs</td>
+        <td><%= User.count(:conditions => ["created_at > ?", 24.hours.ago] %></td>
+      </tr>
+      <tr class="game">
+        <td>Games Played</td>
+        <td><%= Game.count %></td>
+      </tr>
+      <tr class="game">
+        <td>Games started in last 24 hrs</td>
+        <td><%= Game.count(:conditions => ["created_at > ?", 24.hours.ago] %></td>
+      </tr>
+      <tr class="game">
+        <td>One player games</td>
+        <td><%= Game.count(:conditions => ["state < 2"]) %></td>
+      </tr>
+      <tr class="game">
+        <td>Ongoing games</td>
+        <td><%= Game.count(:conditions => ["state = 3 or state = 4"]) %></td>
+      </tr>
+      <tr class="game">
+        <td>Completed games</td>
+        <td><%= Game.count(:conditions => ["state = 7 "]) %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+ 
