@@ -8,7 +8,7 @@
       </tr>
       <tr class="game">
         <td>Users signed in last 24 hrs</td>
-        <td><%= User.count(:conditions => ["created_at > ?", 24.hours.ago] %></td>
+        <td><%= User.count(:conditions => ["created_at > ?", 24.hours.ago]) %></td>
       </tr>
       <tr class="game">
         <td>Games Played</td>
@@ -16,7 +16,7 @@
       </tr>
       <tr class="game">
         <td>Games started in last 24 hrs</td>
-        <td><%= Game.count(:conditions => ["created_at > ?", 24.hours.ago] %></td>
+        <td><%= Game.count(:conditions => ["created_at > ?", 24.hours.ago]) %></td>
       </tr>
       <tr class="game">
         <td>One player games</td>
