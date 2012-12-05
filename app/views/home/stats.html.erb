@@ -2,6 +2,7 @@
   <div class="span5">
     <h2>stats</h2>
     <table class="table table-bordered table-stripped">
+      <tbody>
       <tr class="game">
         <td>Total Users</td>
         <td><%= User.count %></td>
@@ -30,6 +31,7 @@
         <td>Completed games</td>
         <td><%= Game.count(:conditions => ["state = 7 "]) %></td>
       </tr>
+      </tbody>
     </table>
   </div>
 </div>
