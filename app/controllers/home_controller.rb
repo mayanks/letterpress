@@ -6,4 +6,7 @@ class HomeController < ApplicationController
   def leaderboard
     @users = User.all(:limit => 20, :order => "score desc")
   end
+
+  def stats
+  end
 end
