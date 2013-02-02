@@ -14,34 +14,16 @@
     <div id="main" role="main">
       <div class="container">
         <div class="row visible-phone">
+          <% if action_name == 'index' %>
+            <%= link_to(image_tag("/images/left-arrow.png",:class => "pull-left"), "/home") %>
+          <% elsif action_name == 'show' %>
+            <%= link_to(image_tag("/images/left-arrow.png",:class => "pull-left"), games_path) %>
+          <% end %>
           <h1>letterpress.clone</h1>
         </div>
         <div class="row">
           <div class="span3 hidden-phone">
-            <section class="sidebar">
-            <h1>letterpress.clone</h1>
-            <ul class="nav">
-              <%- if current_user %>
-                <li>
-                <div class="tile player_1 profile"><%=image_tag(current_user.profile_picture) %></div>
-                </li>
-              <% end %>
-              <li class="<%='active' if action_name =~ /letterpress/i%>"><a href="/letterpress">letterpress</a></li>
-              <%- if current_user %>
-                <li class="<%='active' if action_name =~ /index|show/i%>"><a href="/games">my games</a></li>
-              <%- end -%>
-              <li class="<%='active' if action_name =~ /howtoplay/i%>"><a href="/howtoplay">how to play</a></li>						
-              <li class="<%='active' if action_name =~ /leaderboard/i%>"><a href="/leaderboard">leaderboard</a></li>						
-              <li>
-              <%- if current_user %>
-                <%= link_to 'sign out', destroy_user_session_path %>
-              <%- else %>
-                <%= link_to "sign in", user_omniauth_authorize_path(:facebook) %>
-              <% end %>
-              </li>
-              <li class="<%='active' if action_name =~ /about/i%>"><a href="/about">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;about</a></li>						
-            </ul>	
-            </section>
+            <%= render "layouts/sidebar" %>
           </div>
           <div class="span9">
             <%= yield %>
